@@ -12,4 +12,4 @@
 | `src/` | 生成スクリプト（trimesh+manifold3d） | `gen_slab_sphere.py 150｜200`、`gen_sphere.py`（Ø50）。既定で各フォルダへ出力 |
 
 磁石は全サイズ共通で **丸型ネオジム φ10mm×3mm（N35以上）** を想定（sphere50には6×3/5×2/8×3版もあり）。
-印刷は P1S + Bambu Studio 前提。重量は概算なので、スライス後の重量表示で確定させる。手順・一時停止の層・磁石の向きルールは各フォルダの GUIDE を参照。
+印刷は P1S + Bambu Studio 前提。重量は概算なので、スライス後の重量表示で確定させる。**作り方は [HOWTO_手順書.md](HOWTO_手順書.md)**（Bambu Studio の操作を含む全手順）。数値の根拠は各フォルダの GUIDE を参照。
