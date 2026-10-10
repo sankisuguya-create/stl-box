@@ -4,9 +4,9 @@ Two identical hemispheres (print the same STL twice), mated by 4 magnets each.
 
 Pocket layout on the flat face:
   - 3 pockets at r=16mm, angles 0/120/240 deg
-  - 1 "key" pocket at r=9mm, angle 180 deg  -> unique mating orientation
-The pattern is mirror-symmetric (required for identical halves) but breaks
-rotational symmetry, so the halves only mate in one orientation.
+  - 1 pocket at r=9mm, angle 180 deg
+The pattern is mirror-symmetric (required for identical halves). Flat faces
+close at any angle; at 120/240 deg 3 of the 4 magnet pairs still engage.
 
 embed variant: pockets are fully internal, 0.8mm of material between the flat
 face and the magnet. Insert magnets via a mid-print pause just before the
@@ -97,7 +97,8 @@ def build(md, mt, embed):
 
 if __name__ == "__main__":
     import os, sys
-    out = "/home/ubuntu/sphere_magnet/out"
+    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "sphere50")
     os.makedirs(out, exist_ok=True)
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
 
@@ -108,9 +109,8 @@ if __name__ == "__main__":
             tm.export(fn)
             ceil_z = FLOOR + mt + EMBED_TCLEAR
             report(tm, fn.split("/")[-1])
-            print(f"   pause just BEFORE first layer at Z={ceil_z:.2f}mm "
-                  f"(0.2mm LH -> layer {int(np.floor(ceil_z / 0.2)) + 1}, "
-                  f"0.12mm LH -> layer {int(np.floor(ceil_z / 0.12)) + 1})")
+            print(f"   pocket ceiling Z={ceil_z:.2f}mm -> pause before the "
+                  f"first layer where the holes are gone (slicer preview)")
 
     if which in ("all", "open"):
         md, mt = SIZES["m6x3"]
