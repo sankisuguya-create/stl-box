@@ -8,7 +8,8 @@ Pieces are numbered from the top (P1 = top cap ... P5 = bottom cap).
 Every piece is printed with its LARGER cut face on the bed, so no piece has
 an overhang (the sphere only narrows upward from the bed).
 
-Pockets: 4 per mating face, 90 deg apart on one ring (point-symmetric).
+Pockets: 4 per mating face, 90 deg apart on one ring (point-symmetric),
+plus 1 at the face centre (fill it or leave it empty).
 The ring radius is chosen per cut so the pocket keeps >= WALL mm of material
 to the sphere surface on the narrower side of that cut.
 
@@ -29,6 +30,7 @@ R = 75.0
 CUTS_FROM_TOP = [32.5, 75.0, 100.0, 125.0]
 WALL = 4.0                      # min material between pocket and sphere surface
 ANGLES = (0.0, 90.0, 180.0, 270.0)
+CENTER_POCKET = True            # 5th pocket at the face centre (optional magnet)
 
 POCKET_DEPTH = FLOOR + MT + EMBED_TCLEAR   # 4.0mm from the face
 PD = (MD + EMBED_DCLEAR) / 2               # pocket radius
@@ -79,8 +81,11 @@ def pockets(m, T, bed_cut, top_cut):
         rr = ring_radius(cut)
         z0, z1 = (FLOOR, POCKET_DEPTH) if side == "bed" \
             else (T - POCKET_DEPTH, T - FLOOR)
-        for deg in ANGLES:
-            x, y = rr * np.cos(np.radians(deg)), rr * np.sin(np.radians(deg))
+        xy = [(rr * np.cos(np.radians(d)), rr * np.sin(np.radians(d)))
+              for d in ANGLES]
+        if CENTER_POCKET:
+            xy.append((0.0, 0.0))
+        for x, y in xy:
             m = m - Manifold.cylinder(z1 - z0, PD, PD, 96).translate([x, y, z0])
     return m
 
