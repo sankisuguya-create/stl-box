@@ -3,10 +3,9 @@ Diameter-50mm split sphere with embedded magnet pockets.
 Two identical hemispheres (print the same STL twice), mated by 4 magnets each.
 
 Pocket layout on the flat face:
-  - 3 pockets at r=16mm, angles 0/120/240 deg
-  - 1 pocket at r=9mm, angle 180 deg
-The pattern is mirror-symmetric (required for identical halves). Flat faces
-close at any angle; at 120/240 deg 3 of the 4 magnet pairs still engage.
+  - 4 pockets at r=16mm, angles 0/90/180/270 deg
+The pattern is mirror- and point-symmetric: all 4 pairs engage every 90 deg,
+so halves snap to the nearest of 4 angles (max 45 deg turn).
 
 embed variant: pockets are fully internal, 0.8mm of material between the flat
 face and the magnet. Insert magnets via a mid-print pause just before the
@@ -25,7 +24,7 @@ R = 25.0            # sphere radius (mm)
 FLOOR = 0.8         # embed variant: material between flat face and pocket
 CHAMFER = 0.25      # 45 deg chamfer on the flat-face rim (avoids lip at seam)
 SEG = 512           # sphere circular segments (surface smoothness)
-POCKETS = [(16.0, 0.0), (16.0, 120.0), (16.0, 240.0), (9.0, 180.0)]
+POCKETS = [(16.0, a) for a in (0.0, 90.0, 180.0, 270.0)]
 
 EMBED_DCLEAR = 0.5   # pocket diameter clearance for mid-print drop-in
 EMBED_TCLEAR = 0.2   # pocket depth headroom

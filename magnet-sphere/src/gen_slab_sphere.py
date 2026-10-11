@@ -11,8 +11,8 @@ printable shapes (5 pieces total):
   - mid_slab  : slab 3 (barrel)                           x1
 
 Magnet pockets (identical pattern on every mating face):
-  - 3 pockets on an outer ring at 0/120/240 deg + 1 at 180 deg on an inner ring
-  - mirror-symmetric set -> mating faces align
+  - 4 pockets on one ring at 0/90/180/270 deg
+  - mirror- and point-symmetric -> mating faces align every 90 deg
   - mid/edge slabs carry pockets on BOTH faces -> two pauses per print
 
 Requires: pip install trimesh manifold3d numpy
@@ -27,8 +27,8 @@ from manifold3d import Manifold
 
 # size -> (radius, slab thickness, pocket layout [(r, deg), ...])
 CONFIGS = {
-    150: (75.0, 30.0, [(45.0, 0.0), (45.0, 120.0), (45.0, 240.0), (25.0, 180.0)]),
-    200: (100.0, 40.0, [(60.0, 0.0), (60.0, 120.0), (60.0, 240.0), (30.0, 180.0)]),
+    150: (75.0, 30.0, [(45.0, a) for a in (0.0, 90.0, 180.0, 270.0)]),
+    200: (100.0, 40.0, [(60.0, a) for a in (0.0, 90.0, 180.0, 270.0)]),
 }
 
 FLOOR = 0.8
