@@ -31,6 +31,10 @@ CUTS_FROM_TOP = [32.5, 75.0, 100.0, 125.0]
 WALL = 4.0                      # min material between pocket and sphere surface
 ANGLES = (0.0, 90.0, 180.0, 270.0)
 CENTER_POCKET = True            # 5th pocket at the face centre (optional magnet)
+# Cut-specific layouts (sphere-centred z of the cut -> extra inner ring).
+# Equator (P2/P3): 8 pockets = outer N/E/S/W + inner NE/SE/SW/NW, no centre.
+INNER_RING = {0.0: 40.0}
+INNER_ANGLES = (45.0, 135.0, 225.0, 315.0)
 
 POCKET_DEPTH = FLOOR + MT + EMBED_TCLEAR   # 4.0mm from the face
 PD = (MD + EMBED_DCLEAR) / 2               # pocket radius
@@ -83,7 +87,11 @@ def pockets(m, T, bed_cut, top_cut):
             else (T - POCKET_DEPTH, T - FLOOR)
         xy = [(rr * np.cos(np.radians(d)), rr * np.sin(np.radians(d)))
               for d in ANGLES]
-        if CENTER_POCKET:
+        if cut in INNER_RING:
+            ri = INNER_RING[cut]
+            xy += [(ri * np.cos(np.radians(d)), ri * np.sin(np.radians(d)))
+                   for d in INNER_ANGLES]
+        elif CENTER_POCKET:
             xy.append((0.0, 0.0))
         for x, y in xy:
             m = m - Manifold.cylinder(z1 - z0, PD, PD, 96).translate([x, y, z0])
